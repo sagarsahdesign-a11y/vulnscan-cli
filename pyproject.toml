@@ -1,0 +1,110 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cvemap"
+version = "1.0.0"
+description = "CVE-powered network vulnerability scanner using Nmap + NIST NVD API"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "sagarsahdesign-a11y", email = "your@email.com" }
+]
+keywords = [
+  "nmap", "cve", "vulnerability-scanner", "cybersecurity",
+  "pentest", "osint", "nist-nvd", "security-tools", "cli"
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Security",
+  "Topic :: System :: Networking",
+  "Topic :: Utilities",
+]
+requires-python = ">=3.9"
+dependencies = [
+  "python-nmap>=0.7.1",
+  "requests>=2.31.0",
+  "rich>=13.0.0",
+  "jinja2>=3.1.0",
+  "python-dotenv>=1.0.0",
+  "urllib3>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4.0",
+  "pytest-cov>=4.1.0",
+  "pytest-mock>=3.12.0",
+  "black>=24.0.0",
+  "isort>=5.13.0",
+  "mypy>=1.8.0",
+  "ruff>=0.3.0",
+  "types-requests>=2.31.0",
+]
+
+[project.urls]
+Homepage      = "https://github.com/sagarsahdesign-a11y/vulnscan-cli"
+Documentation = "https://github.com/sagarsahdesign-a11y/vulnscan-cli#readme"
+"Bug Tracker" = "https://github.com/sagarsahdesign-a11y/vulnscan-cli/issues"
+Changelog     = "https://github.com/sagarsahdesign-a11y/vulnscan-cli/releases"
+
+[project.scripts]
+cvemap = "cvemap.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cvemap*"]
+
+[tool.setuptools.package-data]
+cvemap = ["templates/*.html"]
+
+# ── Black ──────────────────────────────────────────────────────────────────
+[tool.black]
+line-length = 99
+target-version = ["py39", "py310", "py311", "py312"]
+
+# ── isort ──────────────────────────────────────────────────────────────────
+[tool.isort]
+profile = "black"
+line_length = 99
+
+# ── Ruff ───────────────────────────────────────────────────────────────────
+[tool.ruff]
+line-length = 99
+target-version = "py39"
+select = ["E", "W", "F", "I", "B", "UP"]
+ignore = ["E501", "B008", "B904"]
+
+# ── pytest ─────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths    = ["tests"]
+addopts      = "-v --tb=short"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+# ── Coverage ───────────────────────────────────────────────────────────────
+[tool.coverage.run]
+source   = ["cvemap"]
+omit     = ["tests/*", "**/__init__.py"]
+branch   = true
+
+[tool.coverage.report]
+show_missing   = true
+skip_covered   = false
+fail_under     = 70
+
+# ── mypy ───────────────────────────────────────────────────────────────────
+[tool.mypy]
+python_version = "3.9"
+strict         = false
+ignore_missing_imports = true
